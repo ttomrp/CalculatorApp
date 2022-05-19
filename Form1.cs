@@ -13,6 +13,7 @@ namespace CalculatorApp
     public partial class Form1 : Form
     {
         private readonly Calculator _calculator;
+        private string operationHistory;
 
         public Form1()
         {
@@ -45,18 +46,26 @@ namespace CalculatorApp
                 MessageBox.Show("Cannot have null number", "ERROR!");
                 return;
             }
-            else
+            else if (this.operator_label.Text.Length < 56)
             {
                 this.operator_label.Text = this.operator_label.Text + this.number_label.Text + " " + op + " ";
+                operationHistory = operationHistory + this.number_label.Text + " " + op + " ";
+            }
+            else
+            {
+                int length = this.operator_label.Text.Length;
+                int charsToRemove = this.number_label.Text.Length + 3;
+                this.operator_label.Text = this.operator_label.Text.Substring(charsToRemove) + this.number_label.Text + " " + op + " ";
+                
+                operationHistory = operationHistory + this.number_label.Text + " " + op + " ";
             }
 
-            this.number_label.ResetText();
-            
+            this.number_label.Text = "0";
         }
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            this.number_label.ResetText();
+            this.number_label.Text = "0";
             this.operator_label.ResetText();
         }
 
@@ -142,8 +151,8 @@ namespace CalculatorApp
 
         private void equals_button_Click(object sender, EventArgs e)
         {
-            string history = this.operator_label.Text + this.number_label.Text;
-            string[] splitHistory = history.Split(' ');
+            operationHistory = operationHistory + this.number_label.Text;
+            string[] splitHistory = operationHistory.Split(' ');
             float number;
             float lastNumEntry;
             string lastOpEntry = "";

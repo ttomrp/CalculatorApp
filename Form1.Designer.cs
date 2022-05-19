@@ -52,7 +52,9 @@ namespace CalculatorApp
             this.clear_button = new System.Windows.Forms.Button();
             this.number_label = new System.Windows.Forms.Label();
             this.operator_label = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -285,7 +287,7 @@ namespace CalculatorApp
             // 
             this.number_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.number_label.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.number_label.Location = new System.Drawing.Point(2, 13);
+            this.number_label.Location = new System.Drawing.Point(0, 0);
             this.number_label.Name = "number_label";
             this.number_label.Size = new System.Drawing.Size(323, 47);
             this.number_label.TabIndex = 1;
@@ -294,19 +296,27 @@ namespace CalculatorApp
             // 
             // operator_label
             // 
-            this.operator_label.Location = new System.Drawing.Point(2, 64);
+            this.operator_label.Location = new System.Drawing.Point(0, 47);
             this.operator_label.Name = "operator_label";
-            this.operator_label.Size = new System.Drawing.Size(323, 23);
+            this.operator_label.Size = new System.Drawing.Size(323, 24);
             this.operator_label.TabIndex = 2;
             this.operator_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.number_label);
+            this.panel2.Controls.Add(this.operator_label);
+            this.panel2.Location = new System.Drawing.Point(2, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(323, 85);
+            this.panel2.TabIndex = 3;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(327, 437);
-            this.Controls.Add(this.operator_label);
-            this.Controls.Add(this.number_label);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -314,6 +324,7 @@ namespace CalculatorApp
             this.Name = "Form1";
             this.Text = "Calculator";
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -342,6 +353,7 @@ namespace CalculatorApp
         private System.Windows.Forms.Button clear_button;
         private System.Windows.Forms.Label number_label;
         private System.Windows.Forms.Label operator_label;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
