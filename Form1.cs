@@ -12,7 +12,6 @@ namespace CalculatorApp
 {
     public partial class Form1 : Form
     {
-        //private string labelText = "";
         private readonly Calculator _calculator;
 
         public Form1()
@@ -20,6 +19,12 @@ namespace CalculatorApp
             InitializeComponent();
             _calculator = new Calculator();
         }
+
+        // TODO: either limit number of numbers a user can enter or change from float to double
+
+        // TODO: handle numbers too big to display on screen
+
+        // TODO: handle number wrapping or other display options in operator label text
 
         private void number_press(string num)
         {
@@ -35,8 +40,9 @@ namespace CalculatorApp
 
         private void operator_press(string op)
         {
-            if (this.operator_label.Text == "" && this.number_label.Text == "0")
+            if (this.number_label.Text == "")
             {
+                MessageBox.Show("Cannot have null number", "ERROR!");
                 return;
             }
             else
@@ -139,16 +145,25 @@ namespace CalculatorApp
             string history = this.operator_label.Text + this.number_label.Text;
             string[] splitHistory = history.Split(' ');
             float number;
+            float lastNumEntry;
+            string lastOpEntry = "";
 
             foreach (string numberOrOperator in splitHistory)
             {
                 if (float.TryParse(numberOrOperator, out number))
                 {
+                    if (lastOpEntry == "/" && number == 0)
+                    {
+                        MessageBox.Show("Cannot divide by zero", "ERROR!");
+                        return;
+                    }
                     _calculator.numbers.Enqueue(number);
+                    lastNumEntry = number;
                 }
                 else
                 {
                     _calculator.operators.Enqueue(numberOrOperator);
+                    lastOpEntry = numberOrOperator;
                 }
             }
 
