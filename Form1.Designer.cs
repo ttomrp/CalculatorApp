@@ -285,6 +285,7 @@ namespace CalculatorApp
             // 
             // number_label
             // 
+            this.number_label.AutoEllipsis = true;
             this.number_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.number_label.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.number_label.Location = new System.Drawing.Point(0, 0);
@@ -296,9 +297,9 @@ namespace CalculatorApp
             // 
             // operator_label
             // 
-            this.operator_label.Location = new System.Drawing.Point(0, 47);
+            this.operator_label.Location = new System.Drawing.Point(3, 47);
             this.operator_label.Name = "operator_label";
-            this.operator_label.Size = new System.Drawing.Size(323, 24);
+            this.operator_label.Size = new System.Drawing.Size(317, 24);
             this.operator_label.TabIndex = 2;
             this.operator_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 

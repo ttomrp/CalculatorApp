@@ -21,14 +21,12 @@ namespace CalculatorApp
             _calculator = new Calculator();
         }
 
-        // TODO: either limit number of numbers a user can enter or change from float to double
 
-        // TODO: handle numbers too big to display on screen
-
-        // TODO: handle number wrapping or other display options in operator label text
+        // TODO: handle numbers too big to display on number_label
 
         private void number_press(string num)
         {
+            //max size of label is 15 chars
             if (this.number_label.Text == "0")
             {
                 this.number_label.Text = num;
@@ -153,13 +151,13 @@ namespace CalculatorApp
         {
             operationHistory = operationHistory + this.number_label.Text;
             string[] splitHistory = operationHistory.Split(' ');
-            float number;
-            float lastNumEntry;
+            double number;
+            double lastNumEntry;
             string lastOpEntry = "";
 
             foreach (string numberOrOperator in splitHistory)
             {
-                if (float.TryParse(numberOrOperator, out number))
+                if (double.TryParse(numberOrOperator, out number))
                 {
                     if (lastOpEntry == "/" && number == 0)
                     {
@@ -176,7 +174,7 @@ namespace CalculatorApp
                 }
             }
 
-            float result = _calculator.equals();
+            double result = _calculator.equals();
             this.number_label.Text = result.ToString();
             this.operator_label.ResetText();
         }

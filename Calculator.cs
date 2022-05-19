@@ -11,49 +11,49 @@ namespace CalculatorApp
     public class Calculator
         
     {
-        public Queue<float> numbers = new Queue<float>();
+        public Queue<double> numbers = new Queue<double>();
         public Queue<string> operators = new Queue<string>();
 
         public Calculator()
         {
         }
 
-        public float addition(float x, float y)
+        public double addition(double x, double y)
         {
             return x + y;
         }
         
-        public float subtraction(float x, float y)
+        public double subtraction(double x, double y)
         {
             return x - y;
         }
 
-        public float multiply(float x, float y)
+        public double multiply(double x, double y)
         {
             return x * y;
         }
 
-        public float divide(float x, float y)
+        public double divide(double x, double y)
         {
             return x / y;
         }
 
-        public float modulus(float x, float y)
+        public double modulus(double x, double y)
         {
             return x % y;
         }
 
-        public float equals()
+        public double equals()
         {
             if (numbers.Count == 0 || operators.Count == 0)
             {
                 return 0f;
             }
 
-            float total = numbers.Dequeue();  //get first number
+            double total = numbers.Dequeue();  //get first number
             while (numbers.Count != 0)
             {
-                float number = numbers.Dequeue();
+                double number = numbers.Dequeue();
                 string op = operators.Dequeue();
 
                 // Note: currently does not follow PEMDAS order of operations,
