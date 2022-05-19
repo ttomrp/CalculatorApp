@@ -44,12 +44,19 @@ namespace CalculatorApp
 
         public float equals()
         {
+            if (numbers.Count == 0 || operators.Count == 0)
+            {
+                return 0f;
+            }
+
             float total = numbers.Dequeue();  //get first number
             while (numbers.Count != 0)
             {
                 float number = numbers.Dequeue();
                 string op = operators.Dequeue();
 
+                // Note: currently does not follow PEMDAS order of operations,
+                //       it follows the order of entry in the queue
                 switch (op)
                 {
                     case "+":

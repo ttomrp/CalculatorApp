@@ -125,18 +125,30 @@ namespace CalculatorApp
 
         private void add_button_Click(object sender, EventArgs e)
         {
-            float startNumber;
-            float.TryParse(this.number_label.Text, out startNumber);
-
-            _calculator.numbers.Enqueue(startNumber);
-            _calculator.operators.Enqueue("+");
-
             operator_press("+");
         }
 
         private void equals_button_Click(object sender, EventArgs e)
         {
+            string history = this.operator_label.Text + this.number_label.Text;
+            string[] splitHistory = history.Split(' ');
+            float number;
 
+            foreach (string numberOrOperator in splitHistory)
+            {
+                if (float.TryParse(numberOrOperator, out number))
+                {
+                    _calculator.numbers.Enqueue(number);
+                }
+                else
+                {
+                    _calculator.operators.Enqueue(numberOrOperator);
+                }
+            }
+
+            float result = _calculator.equals();
+            this.number_label.Text = result.ToString();
+            this.operator_label.ResetText();
         }
     }
 }
