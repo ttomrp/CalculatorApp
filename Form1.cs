@@ -21,9 +21,10 @@ namespace CalculatorApp
             _calculator = new Calculator();
         }
 
-
-        // TODO: handle numbers too big to display on number_label
-
+        /*
+         * Method called whenever a number button is pressed.
+         * Handles updating the number_label text.
+         */
         private void number_press(string num)
         {
             //max size of label is 15 chars
@@ -37,6 +38,10 @@ namespace CalculatorApp
             }
         }
 
+        /*
+         * Method called whenever an operator button is pressed.
+         * Handles updating the operator_label text.
+         */
         private void operator_press(string op)
         {
             if (this.number_label.Text == "")
@@ -61,6 +66,7 @@ namespace CalculatorApp
             this.number_label.Text = "0";
         }
 
+        //Method called when clear_button is pressed.  Resets text in number_label and operator_label.
         private void clear_button_Click(object sender, EventArgs e)
         {
             this.number_label.Text = "0";
@@ -147,6 +153,11 @@ namespace CalculatorApp
             operator_press("+");
         }
 
+        /*
+         * Method called when equal_button is pressed.
+         * Handles parsing the operation history and populating the calculator queues.
+         * Calls Calculator.equals() to get the final result and displays it in number_label.
+         */
         private void equals_button_Click(object sender, EventArgs e)
         {
             operationHistory = operationHistory + this.number_label.Text;

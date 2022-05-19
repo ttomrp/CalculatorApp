@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace CalculatorApp
 {
 
+    // TODO: do calculations in PEMDAS ordering
+
     public class Calculator
         
     {
@@ -43,6 +45,10 @@ namespace CalculatorApp
             return x % y;
         }
 
+        /*
+         * Method called when equals_button is pressed.
+         * Handles all calculations using a set of helper methods.
+         */
         public double equals()
         {
             if (numbers.Count == 0 || operators.Count == 0)
