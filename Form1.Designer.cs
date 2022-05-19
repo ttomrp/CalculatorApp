@@ -100,6 +100,7 @@ namespace CalculatorApp
             this.decimal_button.TabIndex = 18;
             this.decimal_button.Text = ".";
             this.decimal_button.UseVisualStyleBackColor = true;
+            this.decimal_button.Click += new System.EventHandler(this.decimal_button_Click);
             // 
             // zero_button
             // 

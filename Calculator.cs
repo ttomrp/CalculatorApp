@@ -9,6 +9,8 @@ namespace CalculatorApp
 {
 
     public class Calculator
+
+        //TODO: handling for operating on null or zero numbers
     {
         public Queue<float> numbers = new Queue<float>();
         public Queue<string> operators = new Queue<string>();

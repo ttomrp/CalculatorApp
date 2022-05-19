@@ -51,6 +51,7 @@ namespace CalculatorApp
         private void clear_button_Click(object sender, EventArgs e)
         {
             this.number_label.ResetText();
+            this.operator_label.ResetText();
         }
 
         private void zero_button_Click(object sender, EventArgs e)
@@ -103,24 +104,29 @@ namespace CalculatorApp
             number_press("9");
         }
 
+        private void decimal_button_Click(object sender, EventArgs e)
+        {
+            number_press(".");
+        }
+
         private void mod_button_Click(object sender, EventArgs e)
         {
-
+            operator_press("%");
         }
 
         private void divide_button_Click(object sender, EventArgs e)
         {
-
+            operator_press("/");
         }
 
         private void multiply_button_Click(object sender, EventArgs e)
         {
-
+            operator_press("*");
         }
 
         private void sub_button_Click(object sender, EventArgs e)
         {
-
+            operator_press("-");
         }
 
         private void add_button_Click(object sender, EventArgs e)
