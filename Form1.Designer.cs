@@ -286,10 +286,10 @@ namespace CalculatorApp
             // number_label
             // 
             this.number_label.AutoEllipsis = true;
-            this.number_label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.number_label.Location = new System.Drawing.Point(3, 73);
+            this.number_label.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.number_label.Location = new System.Drawing.Point(3, 60);
             this.number_label.Name = "number_label";
-            this.number_label.Size = new System.Drawing.Size(317, 22);
+            this.number_label.Size = new System.Drawing.Size(317, 35);
             this.number_label.TabIndex = 1;
             this.number_label.Text = "0";
             this.number_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -312,7 +312,7 @@ namespace CalculatorApp
             this.operation_textbox.Name = "operation_textbox";
             this.operation_textbox.ReadOnly = true;
             this.operation_textbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.operation_textbox.Size = new System.Drawing.Size(317, 70);
+            this.operation_textbox.Size = new System.Drawing.Size(317, 57);
             this.operation_textbox.TabIndex = 3;
             this.operation_textbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 

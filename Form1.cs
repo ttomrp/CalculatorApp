@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 
 namespace CalculatorApp
 {
     public partial class Form1 : Form
     {
         private string[] operatorSymbols = { "+", "-", "*", "/", "%" };
+
+        // TODO: exception handling limits the number size
+        // TODO: implement sign flipping button and funtionality
 
         public Form1()
         {
@@ -22,45 +24,26 @@ namespace CalculatorApp
 
         /*
          * Method called whenever an operator button is pressed.
-         * Handles updating the operator_label text.
+         * Handles updating the operation_textbox text.
          */
         private void operator_press(string op)
         {
-            string[] splitEquation = operation_textbox.Text.Split(' ');
-            splitEquation = splitEquation.Where(symbol => !string.IsNullOrEmpty(symbol)).ToArray();
-            string lastElement = splitEquation[splitEquation.Length - 1];
-
-            if (operatorSymbols.Contains(lastElement))
+            string result = Calculation(this.operation_textbox.Text);
+            if (result == "ERROR")
             {
-                //last element must be a number to perform any calculations
-                MessageBox.Show("Cannot have two consecutive operators.", "ERROR!");
                 return;
             }
-
-            if (this.operation_textbox.Text == "")
+            else
             {
-                MessageBox.Show("Cannot have null number.", "ERROR!");
-                return;
+                this.number_label.Text = result;
+                this.operation_textbox.Text = this.operation_textbox.Text + " " + op + " ";
             }
-
-            DataTable dt = new DataTable();
-            try
-            {
-                var result = dt.Compute(operation_textbox.Text, "");
-                this.number_label.Text = result.ToString();
-            }
-            catch
-            {
-                MessageBox.Show("Error in computation.  Resetting.", "ERROR!");
-                this.number_label.Text = "0";
-                this.operation_textbox.ResetText();
-                return;
-            }
-            
-            this.operation_textbox.Text = this.operation_textbox.Text + " " + op + " ";
         }
 
-        //Method called when clear_button is pressed.  Resets text in number_label and operator_label.
+        /*
+         * Method called when clear_button is pressed.
+         * Resets text in number_label and operation_textbox.
+         */
         private void clear_button_Click(object sender, EventArgs e)
         {
             this.number_label.Text = "0";
@@ -149,39 +132,67 @@ namespace CalculatorApp
 
         /*
          * Method called when equal_button is pressed.
-         * Handles parsing the operation history and populating the calculator queues.
-         * Calls Calculator.equals() to get the final result and displays it in number_label.
+         * Updates number_label and operation_textbox.
          */
         private void equals_button_Click(object sender, EventArgs e)
         {
-            string[] splitEquation = operation_textbox.Text.Split(' ');
+            string result = Calculation(this.operation_textbox.Text);
+            if (result == "ERROR")
+            {
+                return;
+            }
+            else
+            {
+                this.number_label.Text = result;
+                this.operation_textbox.Text = result;
+            }
+
+        }
+
+        /*
+         * Method called to calculate current expression.
+         * Follows PEMDAS order of operations.
+         * Catches and displays exceptions thrown during calculation.
+         * Returns a string of the calculated result.
+         */
+        private string Calculation(string expression)
+        {
+            string[] splitEquation = expression.Split(' ');
+            splitEquation = splitEquation.Where(symbol => !string.IsNullOrEmpty(symbol)).ToArray();
             string lastElement = splitEquation[splitEquation.Length - 1];
 
             if (operatorSymbols.Contains(lastElement))
             {
                 //last element must be a number to perform any calculations
                 MessageBox.Show("Cannot have two consecutive operators", "ERROR!");
-                return;
+                return "ERROR";
             }
             if (this.operation_textbox.Text == "")
             {
                 MessageBox.Show("Cannot have null number", "ERROR!");
-                return;
+                return "ERROR";
             }
 
-            DataTable dt = new DataTable();
             try
             {
-                var result = dt.Compute(operation_textbox.Text, "");
-                this.number_label.Text = result.ToString();
-                this.operation_textbox.Text = result.ToString();
+                DataTable dt = new DataTable();
+                var dc = new DataColumn("Eval", typeof(double), expression);
+                dt.Columns.Add(dc);
+                dt.Rows.Add(0);
+                double result = (double)(dt.Rows[0]["Eval"]);
+                return result.ToString();
             }
-            catch
+            catch (Exception e)
             {
-                MessageBox.Show("Error in computation.  Resetting.", "ERROR!");
+                var errorBuilder = new StringBuilder();
+                errorBuilder.Append("Error in computation.  Resetting.");
+                errorBuilder.AppendLine();
+                errorBuilder.Append(e);
+                errorBuilder.AppendLine();
+                MessageBox.Show(errorBuilder.ToString(), "ERROR!");
                 this.number_label.Text = "0";
                 this.operation_textbox.ResetText();
-                return;
+                return "ERROR";
             }
         }
     }
