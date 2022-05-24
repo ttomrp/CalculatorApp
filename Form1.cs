@@ -14,6 +14,7 @@ namespace CalculatorApp
     {
         private readonly Calculator _calculator;
         private string operationHistory;
+        private string[] operatorSymbols = { "+", "-", "*", "/", "%" };
 
         public Form1()
         {
@@ -27,15 +28,8 @@ namespace CalculatorApp
          */
         private void number_press(string num)
         {
+            this.operation_textbox.Text = this.operation_textbox.Text + num;
             //max size of label is 15 chars
-            if (this.number_label.Text == "0")
-            {
-                this.number_label.Text = num;
-            }
-            else
-            {
-                this.number_label.Text = this.number_label.Text + num;
-            }
         }
 
         /*
@@ -49,19 +43,9 @@ namespace CalculatorApp
                 MessageBox.Show("Cannot have null number", "ERROR!");
                 return;
             }
-            else if (this.operator_label.Text.Length < 56)
-            {
-                this.operator_label.Text = this.operator_label.Text + this.number_label.Text + " " + op + " ";
-                operationHistory = operationHistory + this.number_label.Text + " " + op + " ";
-            }
-            else
-            {
-                int length = this.operator_label.Text.Length;
-                int charsToRemove = this.number_label.Text.Length + 3;
-                this.operator_label.Text = this.operator_label.Text.Substring(charsToRemove) + this.number_label.Text + " " + op + " ";
-                
-                operationHistory = operationHistory + this.number_label.Text + " " + op + " ";
-            }
+
+            this.operation_textbox.Text = this.operation_textbox.Text + " " + op + " ";
+            operationHistory = this.operation_textbox.Text;
 
             this.number_label.Text = "0";
         }
@@ -70,7 +54,9 @@ namespace CalculatorApp
         private void clear_button_Click(object sender, EventArgs e)
         {
             this.number_label.Text = "0";
-            this.operator_label.ResetText();
+            //this.operator_label.ResetText();
+            this.operation_textbox.ResetText();
+            operationHistory = "";
         }
 
         private void zero_button_Click(object sender, EventArgs e)
@@ -160,11 +146,27 @@ namespace CalculatorApp
          */
         private void equals_button_Click(object sender, EventArgs e)
         {
-            operationHistory = operationHistory + this.number_label.Text;
+            operationHistoryParser();
+
+            double result = _calculator.equals();
+            this.number_label.Text = result.ToString();
+            this.operation_textbox.ResetText();
+        }
+
+        private void operationHistoryParser()
+        {
+            //operationHistory = operationHistory + this.number_label.Text;
             string[] splitHistory = operationHistory.Split(' ');
             double number;
             double lastNumEntry;
             string lastOpEntry = "";
+            string lastElement = splitHistory[splitHistory.Length - 1];
+
+            if (operatorSymbols.Contains(lastElement))
+            {
+                //last element must be a number to perform any calculations
+                return;
+            }
 
             foreach (string numberOrOperator in splitHistory)
             {
@@ -184,10 +186,6 @@ namespace CalculatorApp
                     lastOpEntry = numberOrOperator;
                 }
             }
-
-            double result = _calculator.equals();
-            this.number_label.Text = result.ToString();
-            this.operator_label.ResetText();
         }
     }
 }

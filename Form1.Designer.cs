@@ -51,8 +51,8 @@ namespace CalculatorApp
             this.sign_button = new System.Windows.Forms.Button();
             this.clear_button = new System.Windows.Forms.Button();
             this.number_label = new System.Windows.Forms.Label();
-            this.operator_label = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.operation_textbox = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -286,31 +286,35 @@ namespace CalculatorApp
             // number_label
             // 
             this.number_label.AutoEllipsis = true;
-            this.number_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.number_label.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.number_label.Location = new System.Drawing.Point(0, 0);
+            this.number_label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.number_label.Location = new System.Drawing.Point(3, 73);
             this.number_label.Name = "number_label";
-            this.number_label.Size = new System.Drawing.Size(323, 47);
+            this.number_label.Size = new System.Drawing.Size(317, 22);
             this.number_label.TabIndex = 1;
             this.number_label.Text = "0";
             this.number_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // operator_label
-            // 
-            this.operator_label.Location = new System.Drawing.Point(3, 47);
-            this.operator_label.Name = "operator_label";
-            this.operator_label.Size = new System.Drawing.Size(317, 24);
-            this.operator_label.TabIndex = 2;
-            this.operator_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.operation_textbox);
             this.panel2.Controls.Add(this.number_label);
-            this.panel2.Controls.Add(this.operator_label);
             this.panel2.Location = new System.Drawing.Point(2, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(323, 85);
+            this.panel2.Size = new System.Drawing.Size(323, 95);
             this.panel2.TabIndex = 3;
+            // 
+            // operation_textbox
+            // 
+            this.operation_textbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.operation_textbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.operation_textbox.Location = new System.Drawing.Point(3, 0);
+            this.operation_textbox.Multiline = true;
+            this.operation_textbox.Name = "operation_textbox";
+            this.operation_textbox.ReadOnly = true;
+            this.operation_textbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.operation_textbox.Size = new System.Drawing.Size(317, 70);
+            this.operation_textbox.TabIndex = 3;
+            this.operation_textbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // Form1
             // 
@@ -326,6 +330,7 @@ namespace CalculatorApp
             this.Text = "Calculator";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -353,8 +358,8 @@ namespace CalculatorApp
         private System.Windows.Forms.Button sign_button;
         private System.Windows.Forms.Button clear_button;
         private System.Windows.Forms.Label number_label;
-        private System.Windows.Forms.Label operator_label;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox operation_textbox;
     }
 }
 
