@@ -29,19 +29,21 @@ namespace CalculatorApp
          */
         private string Calculation(string expression)
         {
+            if (expression == "")
+            {
+                MessageBox.Show("Cannot have null number", "ERROR!");
+                return "ERROR";
+            }
+
             string[] splitEquation = expression.Split(' ');
             splitEquation = splitEquation.Where(symbol => !string.IsNullOrEmpty(symbol)).ToArray();
             string lastElement = splitEquation[splitEquation.Length - 1];
 
-            if (operatorSymbols.Contains(lastElement))
+            double check;
+            if (!double.TryParse(lastElement, out check))
             {
                 //last element must be a number to perform any calculations
                 MessageBox.Show("Cannot have two consecutive operators", "ERROR!");
-                return "ERROR";
-            }
-            if (this.operation_textbox.Text == "")
-            {
-                MessageBox.Show("Cannot have null number", "ERROR!");
                 return "ERROR";
             }
 
@@ -184,8 +186,7 @@ namespace CalculatorApp
             int substringLength = operation_textbox.Text.Length - lastElement.Length;
             
             double num;
-            var success = double.TryParse(lastElement, out num);
-            if (success)
+            if (double.TryParse(lastElement, out num))
             {
                 num = -num;
                 this.operation_textbox.Text = this.operation_textbox.Text.Substring(0, substringLength) + num;
