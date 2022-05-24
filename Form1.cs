@@ -7,29 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
 
 namespace CalculatorApp
 {
     public partial class Form1 : Form
     {
-        private readonly Calculator _calculator;
-        private string operationHistory;
         private string[] operatorSymbols = { "+", "-", "*", "/", "%" };
 
         public Form1()
         {
             InitializeComponent();
-            _calculator = new Calculator();
-        }
-
-        /*
-         * Method called whenever a number button is pressed.
-         * Handles updating the number_label text.
-         */
-        private void number_press(string num)
-        {
-            this.operation_textbox.Text = this.operation_textbox.Text + num;
-            //max size of label is 15 chars
         }
 
         /*
@@ -38,80 +26,100 @@ namespace CalculatorApp
          */
         private void operator_press(string op)
         {
-            if (this.number_label.Text == "")
+            string[] splitEquation = operation_textbox.Text.Split(' ');
+            splitEquation = splitEquation.Where(symbol => !string.IsNullOrEmpty(symbol)).ToArray();
+            string lastElement = splitEquation[splitEquation.Length - 1];
+
+            if (operatorSymbols.Contains(lastElement))
             {
-                MessageBox.Show("Cannot have null number", "ERROR!");
+                //last element must be a number to perform any calculations
+                MessageBox.Show("Cannot have two consecutive operators.", "ERROR!");
                 return;
             }
 
-            this.operation_textbox.Text = this.operation_textbox.Text + " " + op + " ";
-            operationHistory = this.operation_textbox.Text;
+            if (this.operation_textbox.Text == "")
+            {
+                MessageBox.Show("Cannot have null number.", "ERROR!");
+                return;
+            }
 
-            this.number_label.Text = "0";
+            DataTable dt = new DataTable();
+            try
+            {
+                var result = dt.Compute(operation_textbox.Text, "");
+                this.number_label.Text = result.ToString();
+            }
+            catch
+            {
+                MessageBox.Show("Error in computation.  Resetting.", "ERROR!");
+                this.number_label.Text = "0";
+                this.operation_textbox.ResetText();
+                return;
+            }
+            
+            this.operation_textbox.Text = this.operation_textbox.Text + " " + op + " ";
         }
 
         //Method called when clear_button is pressed.  Resets text in number_label and operator_label.
         private void clear_button_Click(object sender, EventArgs e)
         {
             this.number_label.Text = "0";
-            //this.operator_label.ResetText();
             this.operation_textbox.ResetText();
-            operationHistory = "";
         }
 
         private void zero_button_Click(object sender, EventArgs e)
         {
-            number_press("0");
+            this.operation_textbox.Text = this.operation_textbox.Text + "0";
         }
 
         private void one_button_Click(object sender, EventArgs e)
         {
-            number_press("1");
+            this.operation_textbox.Text = this.operation_textbox.Text + "1";
         }
 
         private void two_button_Click(object sender, EventArgs e)
         {
-            number_press("2");
+            this.operation_textbox.Text = this.operation_textbox.Text + "2";
         }
 
         private void three_button_Click(object sender, EventArgs e)
         {
-            number_press("3");
+            this.operation_textbox.Text = this.operation_textbox.Text + "3";
         }
 
         private void four_button_Click(object sender, EventArgs e)
         {
-            number_press("4");
+            this.operation_textbox.Text = this.operation_textbox.Text + "4";
         }
 
         private void five_button_Click(object sender, EventArgs e)
         {
-            number_press("5");
+            this.operation_textbox.Text = this.operation_textbox.Text + "5";
         }
 
         private void six_button_Click(object sender, EventArgs e)
         {
-            number_press("6");
+            this.operation_textbox.Text = this.operation_textbox.Text + "6";
         }
 
         private void seven_button_Click(object sender, EventArgs e)
         {
-            number_press("7");
+            this.operation_textbox.Text = this.operation_textbox.Text + "7";
         }
 
         private void eight_button_Click(object sender, EventArgs e)
         {
-            number_press("8");
+            this.operation_textbox.Text = this.operation_textbox.Text + "8";
         }
 
         private void nine_button_Click(object sender, EventArgs e)
         {
-            number_press("9");
+            this.operation_textbox.Text = this.operation_textbox.Text + "9";
         }
 
         private void decimal_button_Click(object sender, EventArgs e)
         {
-            number_press(".");
+            this.operation_textbox.Text = this.operation_textbox.Text + ".";
         }
 
         private void mod_button_Click(object sender, EventArgs e)
@@ -146,45 +154,34 @@ namespace CalculatorApp
          */
         private void equals_button_Click(object sender, EventArgs e)
         {
-            operationHistoryParser();
-
-            double result = _calculator.equals();
-            this.number_label.Text = result.ToString();
-            this.operation_textbox.ResetText();
-        }
-
-        private void operationHistoryParser()
-        {
-            //operationHistory = operationHistory + this.number_label.Text;
-            string[] splitHistory = operationHistory.Split(' ');
-            double number;
-            double lastNumEntry;
-            string lastOpEntry = "";
-            string lastElement = splitHistory[splitHistory.Length - 1];
+            string[] splitEquation = operation_textbox.Text.Split(' ');
+            string lastElement = splitEquation[splitEquation.Length - 1];
 
             if (operatorSymbols.Contains(lastElement))
             {
                 //last element must be a number to perform any calculations
+                MessageBox.Show("Cannot have two consecutive operators", "ERROR!");
+                return;
+            }
+            if (this.operation_textbox.Text == "")
+            {
+                MessageBox.Show("Cannot have null number", "ERROR!");
                 return;
             }
 
-            foreach (string numberOrOperator in splitHistory)
+            DataTable dt = new DataTable();
+            try
             {
-                if (double.TryParse(numberOrOperator, out number))
-                {
-                    if (lastOpEntry == "/" && number == 0)
-                    {
-                        MessageBox.Show("Cannot divide by zero", "ERROR!");
-                        return;
-                    }
-                    _calculator.numbers.Enqueue(number);
-                    lastNumEntry = number;
-                }
-                else
-                {
-                    _calculator.operators.Enqueue(numberOrOperator);
-                    lastOpEntry = numberOrOperator;
-                }
+                var result = dt.Compute(operation_textbox.Text, "");
+                this.number_label.Text = result.ToString();
+                this.operation_textbox.Text = result.ToString();
+            }
+            catch
+            {
+                MessageBox.Show("Error in computation.  Resetting.", "ERROR!");
+                this.number_label.Text = "0";
+                this.operation_textbox.ResetText();
+                return;
             }
         }
     }
